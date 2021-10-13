@@ -34,19 +34,11 @@ var assembly = context.LoadFromAssemblyPath(assemblyPath);
 var attributes = assembly.GetCustomAttributesData();
 foreach (var attr in attributes.OrderBy(x => x.AttributeType.Name))
 {
-    var name = attr.AttributeType.Name;
+    var name = attr.AttributeType.FullName ?? attr.AttributeType.Name;
     if (name.EndsWith("Attribute"))
         name = name.Substring(0, name.Length - 9);
 
-    if (attr.NamedArguments.Count > 0)
-    {
-        Console.Write(name);
-        Console.WriteLine(':');
-
-        foreach (var arg in attr.NamedArguments)
-            Console.WriteLine($"  {arg.MemberName}: {arg.TypedValue.Value}");
-    }
-    else if (attr.ConstructorArguments.Count > 0)
+    if (attr.ConstructorArguments.Count > 0)
     {
         var ctorArgs =
             attr.ConstructorArguments
@@ -57,6 +49,16 @@ foreach (var attr in attributes.OrderBy(x => x.AttributeType.Name))
         Console.Write(": ");
         Console.WriteLine(string.Join(", ", ctorArgs));
     }
+    else if (attr.NamedArguments.Count > 0)
+    {
+        Console.Write(name);
+        Console.WriteLine(':');
+
+        foreach (var arg in attr.NamedArguments)
+            Console.WriteLine($"  {arg.MemberName}: {arg.TypedValue.Value}");
+    }
+    else
+        Console.WriteLine(name);
 }
 
 Console.WriteLine();
