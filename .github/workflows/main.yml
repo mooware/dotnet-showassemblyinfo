@@ -35,3 +35,10 @@ jobs:
           mkdir out
           dotnet pack --configuration Release --output out --no-restore
           dotnet nuget push "./out/*.nupkg" --skip-duplicate --no-symbols true --api-key ${{secrets.NUGET_TOKEN}}
+
+      - name: Archive Package
+        uses: actions/upload-artifact@v2
+        with:
+          name: nuget-package
+          path: |
+            out
