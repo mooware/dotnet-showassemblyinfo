@@ -32,11 +32,14 @@ var context = new MetadataLoadContext(pathResolver);
 var assembly = context.LoadFromAssemblyPath(assemblyPath);
 
 var attributes = assembly.GetCustomAttributesData();
-foreach (var attr in attributes.OrderBy(x => x.AttributeType.Name))
+foreach (var attr in attributes)
 {
+    // attribute class names end with Attribute, but it's usually not displayed
     var name = attr.AttributeType.FullName ?? attr.AttributeType.Name;
     if (name.EndsWith("Attribute"))
         name = name.Substring(0, name.Length - 9);
+
+    Console.Write(name);
 
     if (attr.ConstructorArguments.Count > 0)
     {
@@ -45,20 +48,17 @@ foreach (var attr in attributes.OrderBy(x => x.AttributeType.Name))
             .Where(x => x.Value is object)
             .Select(x => x.Value!.ToString());
 
-        Console.Write(name);
         Console.Write(": ");
-        Console.WriteLine(string.Join(", ", ctorArgs));
+        Console.Write(string.Join(", ", ctorArgs));
     }
-    else if (attr.NamedArguments.Count > 0)
-    {
-        Console.Write(name);
-        Console.WriteLine(':');
 
+    Console.WriteLine();
+
+    if (attr.NamedArguments.Count > 0)
+    {
         foreach (var arg in attr.NamedArguments)
             Console.WriteLine($"  {arg.MemberName}: {arg.TypedValue.Value}");
     }
-    else
-        Console.WriteLine(name);
 }
 
 Console.WriteLine();
