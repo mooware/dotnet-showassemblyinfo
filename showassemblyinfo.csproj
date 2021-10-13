@@ -7,17 +7,16 @@
     <Nullable>enable</Nullable>
     <RollForward>LatestMajor</RollForward>
 
-    <Description>Displays .NET assembly metadata.
-
-Install: dotnet tool install -g mooware.showassemblyinfo
-Use: dotnet assemblyinfo [assemblypath]
-    </Description>
-    <VersionPrefix>0.9.0</VersionPrefix>
-    <Copyright>mooware (dev@mooware.at)</Copyright>
+    <Description>Displays .NET assembly metadata.</Description>
+    <AssemblyName>mooware.showassemblyinfo</AssemblyName>
+    <ProductName>$(AssemblyName)</ProductName>
+    <Title>$(AssemblyName)</Title>
+    <VersionPrefix>0.9.1</VersionPrefix>
+    <Copyright>(C) mooware (dev@mooware.at)</Copyright>
     <Authors>mooware</Authors>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageId>mooware.showassemblyinfo</PackageId>
+    <PackageId>$(AssemblyName)</PackageId>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>assemblyinfo</ToolCommandName>
 
@@ -28,10 +27,15 @@ Use: dotnet assemblyinfo [assemblypath]
 
   <!-- $CI should be set in github actions -->
   <PropertyGroup Condition="'$(CI)' != ''">
-    <PackageProjectUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)/README.md</PackageProjectUrl>
+    <PackageProjectUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup Condition="'$(CI)' != ''">
     <SourceRoot Include="$(MSBuildThisFileDirectory)/"/>
