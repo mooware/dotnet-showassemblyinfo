@@ -11,14 +11,14 @@
     <AssemblyName>mooware.showassemblyinfo</AssemblyName>
     <ProductName>$(AssemblyName)</ProductName>
     <Title>$(AssemblyName)</Title>
-    <VersionPrefix>0.9.2</VersionPrefix>
+    <VersionPrefix>0.9.3</VersionPrefix>
     <Copyright>(C) mooware (dev@mooware.at)</Copyright>
     <Authors>mooware</Authors>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>$(AssemblyName)</PackageId>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>assemblyinfo</ToolCommandName>
+    <ToolCommandName>dotnet-assemblyinfo</ToolCommandName>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <DebugType>embedded</DebugType>
