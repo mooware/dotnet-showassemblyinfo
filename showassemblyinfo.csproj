@@ -1,26 +1,41 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Displays .NET assembly metadata.</Description>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
     <RollForward>LatestMajor</RollForward>
-    <VersionPrefix>1.0.0</VersionPrefix>
-    <PackageProjectUrl>https://github.com/mooware/dotnet-assemblyinfo/README.md</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>mooware, dev@mooware.at</Copyright>
-    <Authors>mooware</Authors>
-    <PackAsTool>true</PackAsTool>
-  </PropertyGroup>
 
-  <!-- debugging settings -->
-  <PropertyGroup>
+    <Description>Displays .NET assembly metadata.
+
+Install: dotnet tool install -g mooware.showassemblyinfo
+Use: dotnet assemblyinfo [assemblypath]
+    </Description>
+    <VersionPrefix>0.9.0</VersionPrefix>
+    <Copyright>mooware (dev@mooware.at)</Copyright>
+    <Authors>mooware</Authors>
+
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageId>mooware.showassemblyinfo</PackageId>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>assemblyinfo</ToolCommandName>
+
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <DebugType>embedded</DebugType>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
+
+  <!-- $CI should be set in github actions -->
+  <PropertyGroup Condition="'$(CI)' != ''">
+    <PackageProjectUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)/README.md</PackageProjectUrl>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(CI)' != ''">
+    <SourceRoot Include="$(MSBuildThisFileDirectory)/"/>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
